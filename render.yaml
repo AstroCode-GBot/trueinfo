@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: trueinfo
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 --threads 4 --timeout 120 app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: ENABLE_BOT_POLLING
+        value: "1"
+    healthCheckPath: /
