@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TrueInfo — Smart Caller Search</title>
+  <meta name="description" content="TrueInfo smart phone information lookup platform.">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">
+    <span class="true">True</span><span class="info">Info</span>
+  </a>
+  <div class="top-actions">
+    <button id="themeBtn" class="icon-btn" title="Toggle theme">◐</button>
+    <div id="loginArea">
+      {% if user %}
+        <div class="profile-chip">
+          <span class="avatar">{{ (user["first_name"] or "U")[0] }}</span>
+          <span>{{ user["first_name"] or user["username"] or "Telegram user" }}</span>
+          {% if user["is_premium"] %}<b class="premium-badge">PREMIUM</b>{% endif %}
+          {% if user["tg_id"] == 0 %}{% endif %}
+          <button id="logoutBtn" class="ghost-btn">Logout</button>
+        </div>
+      {% else %}
+        <button class="login-btn" id="openLogin">Login with Telegram</button>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+{% if popup_enabled and popup_notice %}
+<div class="notice">{{ popup_notice }}</div>
+{% endif %}
+
+<main class="shell">
+  <section class="hero">
+    <div class="eyebrow">PRIVATE • FAST • SIMPLE</div>
+    <h1>Find useful info from a phone number.</h1>
+    <p>Search a number with a clean interface. Login with Telegram to unlock premium tools and personal history.</p>
+
+    <div class="search-card">
+      <div class="search-row">
+        <div class="phone-field">
+          <span>+880</span>
+          <input id="number" inputmode="numeric" autocomplete="tel"
+                 placeholder="1XXXXXXXXX" maxlength="11">
+        </div>
+        <button id="searchBtn" class="primary-btn">
+          <span>Search</span><span class="spinner hidden"></span>
+        </button>
+      </div>
+      <div class="hint">Example: 1912933782</div>
+    </div>
+
+    <div class="result-grid" id="resultGrid"></div>
+  </section>
+
+  <section class="feature-grid">
+    <article class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <h3>Fast lookup</h3>
+      <p>One search box, clean results, responsive on mobile and desktop.</p>
+    </article>
+    <article class="feature-card">
+      <span class="feature-icon">⭐</span>
+      <h3>Premium tools</h3>
+      <p>Telegram ID lookup and custom SMS tools for authorized premium users.</p>
+    </article>
+    <article class="feature-card">
+      <span class="feature-icon">📜</span>
+      <h3>History</h3>
+      <p>Logged-in users can view their own recent lookup history.</p>
+    </article>
+  </section>
+
+  <section class="premium-section">
+    <div>
+      <div class="eyebrow">TRUEINFO PREMIUM</div>
+      <h2>Extra tools, inside your account.</h2>
+      <p>Premium access is activated by the administrator. Everything is server-side protected.</p>
+    </div>
+
+    <div class="premium-grid">
+      <div class="tool-card">
+        <div class="tool-head">
+          <span>01</span><strong>TG ID → Number</strong>
+        </div>
+        <input id="tgUserId" class="dark-input" placeholder="Telegram user ID">
+        <button class="secondary-btn" id="tgToPhoneBtn">Run premium lookup</button>
+        <pre id="tgToPhoneOut" class="output"></pre>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-head">
+          <span>02</span><strong>Custom SMS</strong>
+        </div>
+        <input id="smsNumber" class="dark-input" placeholder="01XXXXXXXXX">
+        <textarea id="smsMessage" class="dark-input" maxlength="300"
+                  placeholder="Your message"></textarea>
+        <button class="secondary-btn" id="smsBtn">Send SMS</button>
+        <pre id="smsOut" class="output"></pre>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-head">
+          <span>03</span><strong>Your History</strong>
+        </div>
+        <button class="secondary-btn" id="historyBtn">Load history</button>
+        <div id="historyOut" class="history-list"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span>© TrueInfo</span>
+  <span>Use only with lawful authorization.</span>
+</footer>
+
+<div id="loginModal" class="modal hidden">
+  <div class="modal-box">
+    <button id="closeLogin" class="close">×</button>
+    <div class="modal-title">Login with Telegram</div>
+    <p>Continue to Telegram to authorize your TrueInfo account.</p>
+    <a class="login-btn tg-link" href="/auth/telegram/start">Continue with Telegram</a>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

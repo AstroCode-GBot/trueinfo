@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrueInfo Admin</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><span class="true">True</span><span class="info">Info</span></a>
+  <div class="admin-title">Admin Console</div>
+  <a class="ghost-link" href="/">Open site</a>
+</header>
+
+<main class="admin-shell">
+  <section class="admin-stats">
+    <div class="stat"><span>Users</span><b>{{ stats.users }}</b></div>
+    <div class="stat"><span>Web logins</span><b>{{ stats.logged_users }}</b></div>
+    <div class="stat"><span>Lookups</span><b>{{ stats.lookups }}</b></div>
+    <div class="stat"><span>Premium</span><b>{{ stats.premium }}</b></div>
+  </section>
+
+  <section class="admin-card">
+    <div class="section-title"><h2>System</h2></div>
+    <div class="control-row">
+      <label>Bot enabled <input id="botEnabled" type="checkbox" {% if bot_enabled %}checked{% endif %}></label>
+      <label>Popup enabled <input id="popupEnabled" type="checkbox" {% if popup_enabled %}checked{% endif %}></label>
+    </div>
+    <textarea id="popupNotice" class="dark-input" placeholder="Website popup notice">{{ popup_notice }}</textarea>
+    <button id="saveSettings" class="primary-btn">Save settings</button>
+  </section>
+
+  <section class="admin-card">
+    <div class="section-title">
+      <h2>Users</h2>
+      <input id="userSearch" class="dark-input compact" placeholder="Search Telegram ID / username">
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>User</th><th>Telegram ID</th><th>Last seen</th><th>Plan</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="usersBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="admin-card">
+    <div class="section-title"><h2>Broadcast</h2></div>
+    <textarea id="broadcastText" class="dark-input" maxlength="4000" placeholder="Telegram broadcast message"></textarea>
+    <button id="broadcastBtn" class="primary-btn">Send broadcast</button>
+    <pre id="broadcastOut" class="output"></pre>
+  </section>
+
+  <section class="admin-card">
+    <div class="section-title"><h2>User history</h2><span id="historyUserLabel"></span></div>
+    <div id="userHistory" class="history-list"></div>
+  </section>
+</main>
+
+<script src="/static/admin.js"></script>
+</body>
+</html>
